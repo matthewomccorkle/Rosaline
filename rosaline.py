@@ -2,7 +2,7 @@ import sys
 import subprocess
 import argparse
 
-def resolve_ip_addresses(input_file, output_file=None, port=None, protocol=None):
+def resolve_ip_addresses(input_file, output_file=None, ports=None, protocol=None):
     """Reads a file, resolves each IP address to a hostname, and prints results to stdout and optionally writes to an output file."""
     results = []
 
@@ -25,8 +25,8 @@ def resolve_ip_addresses(input_file, output_file=None, port=None, protocol=None)
                         else:
                             hostname = "Could_not_resolve_hostname"
 
-                        # Format output with optional port and protocol
-                        port_part = f":{port}" if port else ""
+                        # Format output with optional ports and protocol
+                        port_part = f":{','.join(ports)}" if ports else ""
                         protocol_part = f"/{protocol}" if protocol else ""
                         formatted_output = f"{ip_address}{port_part}{protocol_part} ({hostname})"
                         results.append(formatted_output)
@@ -59,9 +59,12 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Resolve IP addresses to hostnames.")
     parser.add_argument('-i', '--input', required=True, help="Input file containing IP addresses.")
     parser.add_argument('-o', '--output', help="Optional output file to write resolved hostnames.")
-    parser.add_argument('-p', '--port', type=int, help="Optional port number to include in the output.")
+    parser.add_argument('-p', '--ports', help="Optional comma-separated list of ports to include in the output.")
     parser.add_argument('-P', '--protocol', help="Optional protocol to include in the output.")
 
     args = parser.parse_args()
 
-    resolve_ip_addresses(args.input, args.output, args.port, args.protocol)
+    # Split the ports into a list if provided
+    ports = args.ports.split(',') if args.ports else None
+
+    resolve_ip_addresses(args.input, args.output, ports, args.protocol)
