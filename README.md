@@ -5,7 +5,7 @@ A python script that resolves an IP address (or list) to hostnames and outputs i
 Usage:<br>
 
 ```bash
-python3 roasline.py -i "INPUT FILE_OR IP" -p "PORT" -o "OUTPUT_FILE -P "PROTOCOL"
+python3 roasline.py -i "INPUT FILE_OR IP" -p "PORTS,PORTS2" -o "OUTPUT_FILE -P "PROTOCOL"
 ```
 <p>
 Output:<br>
